@@ -33,3 +33,8 @@ print(f"Total Revenue: ${total_revenue:.2f}")
 print(f"Average Daily Revenue: ${average_daily_revenue:.2f}")
 print(f"Affordable Products: {affordable_products}")
 
+
+# Create a dictionary with products as keys and prices as values
+product_prices_dict = {product: price for product, price in zip(products, prices)}
+
+# Now product_prices_dict contains the desired dictionary

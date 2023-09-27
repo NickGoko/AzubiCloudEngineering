@@ -71,20 +71,17 @@ create_backups() {
 # Choice 6
 # Function to generate strong and random passwords
 generate_passwords() {
-    echo "Generating a password..."
-    read -p "Enter the password length: " password_length
+    echo "Generating strong and random passwords..."
+    read -p "Enter the desired password length: " password_length
 
+    # Check if the input is a valid positive integer
     if ! [[ "$password_length" =~ ^[1-9][0-9]*$ ]]; then
         echo "Invalid input. Please enter a valid positive integer."
         return 1
     fi
 
-    characters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    password=""
-
-    for ((i = 0; i < password_length; i++)); do
-        password+="${characters:RANDOM % ${#characters}:1}"
-    done
+    # Generate the password using /dev/urandom and base64 encoding
+    password=$(openssl rand -base64 "$password_length" | tr -d '=' | tr '+/' '-_')
 
     echo "Generated password: $password"
 }

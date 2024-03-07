@@ -25,6 +25,7 @@ docker push nickgoko/webapp-v1
 - Navigate to your Dockerhub repo to confirm that the push was successful. 
 
 ## Version 2
+
 ### Objective- A Working docker image deployed on AWS and running on Fargate.
 ![Alt text](image-2.png)
 ### Requirements
@@ -36,7 +37,10 @@ docker push nickgoko/webapp-v1
 #### Step 1
 Improve upon the functionality v1 of the web app to a version to. 
 Create index.php
-
+Then  build a docker image
+```
+docker build -t docker-web-app . 
+```
 #### Step 2
 Create a repository in Amazon ECR to house the Docker container image and name it `docker-web-app`
 #### Step 3

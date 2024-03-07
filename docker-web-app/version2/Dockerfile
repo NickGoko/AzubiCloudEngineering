@@ -1,10 +1,8 @@
+FROM php:7.1-apache
 
-# Use the official PHP and Apache image
-FROM php:apache
-
-# Copy the PHP files into the web server directory
-COPY version2 /var/www/html
-
-# Expose port 80 to the outside world
+# Expose web server port
 EXPOSE 80
 
+# Copy index.html and process.php
+COPY index.html /var/www/html/
+COPY login.php /var/www/html/

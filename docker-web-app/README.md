@@ -31,53 +31,76 @@ docker push nickgoko/webapp-v1
 ### Requirements
 - Fargate Launch Type
     ![AWS Fargate](image-1.png)
+    
 - AWS CLI installed
 - Docker Image version 2
 
 #### Step 1
 Improve upon the functionality v1 of the web app to a version to. 
 Create index.php
-Then  build a docker image
+Then  build a docker image and run the container to test the application works locally
 ```
 docker build -t docker-web-app . 
 ```
-#### Step 2
-Create a repository in Amazon ECR to house the Docker container image and name it `docker-web-app`
-#### Step 3
-Once you do that You are now ready to build the container image for the application and push it to the Amazon ECR repository that you created
-
-#### Step 4
-Ensure your AWS CLI is installed and updated
-
-#### Step 5
-Go back to the **Amazon ECR** console browser tab, and in the message window at the top of the page, choose **View push commands**.
-    
-The **Push commands for docker-web-app** pop-up window opens. 
-- This window lists **four AWS CLI commands** that are customized for the _mb-repo_, and they are purposely built to:
-- Authenticate your Docker client to your Amazon ECR registry
-    - Build your Docker image
-    - Tag your Docker image
-    - Push your Docker image to the repository
 
 
-#### Step 6
-Once your repo is pushed and image is on ecr.
-Record the _Image URI_. In the **Images** list, locate the **Image URI** of the _latest_ version of the image, and choose the **Copy** icon. Paste the value in a text editor. You will use it in a subsequent step.
-#### Step
-Create a ECS cluster
 
-#### Step 7
-In the navigation pane of the **Amazon ECS** console browser tab, choose **Task Definitions**.  
-Choose **Create new Task Definition**.  
-In the **Select launch type compatibility** page, choose the **EC2** card.  
-Choose **Next step**.  
-The **Configure task and container definitions** page opens.  
-In the **Task Definition Name** box, enter `webapp-task`.  
-Scroll down to **Container Definitions** and choose **Add container**.  
-The **Add container** window opens.
+**Steps:**
+
+**1. Create an Amazon ECS Cluster:**
+
+1. Open the AWS Management Console and navigate to the Amazon ECS service.
+2. Click on "Clusters" in the left navigation pane.
+3. Click on "Create cluster".
+
+
+**2. Create an ECR Public Repository:**
+
+1. Navigate to the Amazon ECR service in the Management Console.
+2. Click on "Repositories" in the left navigation pane.
+3. Click on "Create repository".
+
+**3. Upload/Push Docker Image to ECR Repository (Using AWS CLI):**
+
+**Note:** This step requires the AWS CLI installed and configured with your IAM user credentials (access key and secret key).
+
+- Follow the commands provided
+
+![[Pasted image 20240308112814.png]]
+- Once it works you should be able to view the image in your repository  
+
+**4. Create an ECS Task Definition with Fargate Launch Type:**
+
+1. In the ECS Management Console, navigate to "Task Definitions".
+2. Click on "Create task definition".
+3. Choose a compatibility option (Fargate)
+
+ 
+**5. Launch a New Fargate Task:**
+
+1. In the ECS Management Console, navigate to "Tasks".  
+2. Click on "Run new task".  
+3. Choose your cluster and task definition.  
+4. Under "Launch type", select "Fargate".  
+5. Configure the number of tasks to launch (usually 1).  
+6. (Optional) Configure advanced launch settings like resource allocation for Fargate tasks.  
+7. Click on "Run" to launch the task using your created task definition.
+
+
+
+Tested it locally  
+`docker run -p 9000:80 public.ecr.aws/j0n8e2w8/my-php-app-repo:latest`
+
+
+- Login page successful with task run on ECS on port 9000  
+
+
+- Login page successful with correct username & password.  
+
+
 
 Configure the following settings.
-- **Container name**: `docker-web-app`
+- **Container name**: `my-php-app`
 - **Image**: Paste the **Image URI** of the application container image, which you copied to a text editor in a previous step.
 - **Memory Limits**: Select _Hard limit_ and enter `256`. (This setting defines the maximum amount of memory that the container is allowed to use.)
 - **Port mappings > Container port**: `3000` (This setting specifies the port where the container receives requests. You do not need to enter a value in **Host port**.)  
